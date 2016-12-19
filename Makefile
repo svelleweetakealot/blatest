@@ -1,9 +1,9 @@
-VENV_DIR=./virtualenv
+VENV_DIR=virtualenv
 PIP=$(VENV_DIR)/bin/pip
 PYTHON=$(VENV_DIR)/bin/python
-WHEEL_DIR=./wheeldir
+WHEEL_DIR=wheeldir
 
-.PHONY: wheels clean tests
+.PHONY: clean tests wheel
 
 $(VENV_DIR):
 	virtualenv --no-site-packages $(VENV_DIR)
@@ -15,7 +15,9 @@ $(WHEEL_DIR): $(VENV_DIR)
 tests: $(VENV_DIR)
 	$(PYTHON) -m unittest discover
 
-wheels: $(WHEEL_DIR)
+
+wheel: $(VENV_DIR)
+	$(PIP) wheel . --wheel-dir="wheelzzz"
 
 clean:
 	rm -fr $(VENV_DIR)
