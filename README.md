@@ -1,7 +1,7 @@
 Demo of General CI Ideas
 ========================
 
-This repo is just a place where I try to remain fairly generic with regards to how we want to do deployments and CI. The basic idea is the order of build, test, deploy.
+General demo of CI and testing
 
 Build
 -----
@@ -20,7 +20,7 @@ Assuming a similar directory structure:
     ├── __init__.py
     └── test_bla.py
 ```
-- clear _wheels_ directory
+- Create/clear the _wheels_ directory
 - download dependencies in the form of _wheels_
 - run _python setup.py sdist_ and output to the _wheels_ directory. (For a binary, pre-built, distribution *bdist_wheel* might be advisable)
 
