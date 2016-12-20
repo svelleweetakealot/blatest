@@ -3,3 +3,7 @@ wheelhouse/
 dist/
 dist/
 virtualenv/
+*.egginfo
+*.egg-info
+*.pyc
+*~
