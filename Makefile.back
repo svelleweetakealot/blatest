@@ -1,0 +1,40 @@
+VENV_DIR = virtualenv
+PIP = $(VENV_DIR)/bin/pip
+PYTHON = $(VENV_DIR)/bin/python
+WHEEL_DIR = wheeldir
+DEST_DIR=dist
+DEST=$(DEST_DIR)/$(PROJECT).tar.gz
+
+.PHONY: clean tests wheels build dist
+
+$(VENV_DIR):
+	virtualenv --no-site-packages $(VENV_DIR)
+	$(PIP) install -U pip
+
+tests: $(VENV_DIR)
+	$(PYTHON) -m unittest discover
+
+
+wheels: $(VENV_DIR)
+	$(PIP) wheel . --wheel-dir=$(WHEEL_DIR)
+
+clean:
+	rm -fr $(VENV_DIR)
+	rm -fr $(WHEEL_DIR)
+	rm -fr $(DEST_DIR)
+	rm -fr wheels
+	rm -fr dist
+	find . -iname "*.pyc" -delete
+
+build: $(VENV_DIR)
+	rm -fr wheels && \
+	mkdir wheels && \
+	$(PIP) download . --no-cache-dir --dest="wheels" && \
+	$(PYTHON) setup.py bdist_wheel --dist-dir="wheels"
+	#$(PIP) wheel . --wheel-dir="wheels"
+
+dist:  build
+	rm -fr $(DEST_DIR) && \
+	mkdir $(DEST_DIR) && \
+	tar -czvf $(DEST) wheels/ etc/ scripts/
+
